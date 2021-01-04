@@ -106,9 +106,15 @@ router.get('/:id', (req, res) => {
 		.select('-__v')
 		.populate({ path: 'devices', select: '-__v' })
 		.exec()
-		.then(gateway => res.json({
-			gateway
-		}))
+		.then(gateway => {
+			if (!gateway)
+				return res.status(404).send({
+					msg: `Gateway object '${_id}' not found`
+				})
+			return res.json({
+				gateway
+			})
+		})
 		.catch(err => res.status(404).send({
 			msg: `Gateway object '${_id}' not found`
 		}))
