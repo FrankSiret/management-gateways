@@ -75,3 +75,7 @@ Frank Rodríguez Siret
 ### Version
 
 1.0.0
+
+## Api
+
+You can check the Api documentation here [Api Documentation](https://github.com/FrankSiret/management-gateways/blob/main/API_DOCS.md)
