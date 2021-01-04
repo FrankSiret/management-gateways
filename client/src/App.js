@@ -7,7 +7,6 @@ import store from './store';
 
 import AppNavbar from './components/AppNavbar';
 import GatewayList from './components/GatewayList';
-// import GatewayModal from './components/GatewayModal';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';

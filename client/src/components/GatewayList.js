@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import {
 	Container,
 	Alert,
