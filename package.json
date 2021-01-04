@@ -4,6 +4,7 @@
   "description": "gateways managing",
   "main": "index.js",
   "scripts": {
+    "client-install": "npm install --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server",
     "client": "npm start --prefix client",
@@ -26,5 +27,9 @@
     "mongoose": "^5.11.9",
     "mongoose-timestamp": "^0.6.0",
     "uuid": "^8.3.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrankSiret/management-gateways.git"
   }
 }
