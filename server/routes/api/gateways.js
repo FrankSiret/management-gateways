@@ -26,12 +26,13 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
 
 	let newGateway;
+	let _id;
+
+	const { serial_number, readable_name, ipv4_address, devices } = req.body
 
 	try {
 		if (!req.is('application/json'))
 			throw new Error(`Expect 'application/json'`)
-
-		const { serial_number, readable_name, ipv4_address, devices } = req.body
 
 		if (!serial_number || !readable_name || !ipv4_address)
 			throw new Error('Enter all field')
@@ -45,13 +46,16 @@ router.post('/', async (req, res) => {
 		newGateway = new GatewayModel({ serial_number, readable_name, ipv4_address });
 
 		let gateway = await newGateway.save();
-		const { _id } = gateway;
+		_id = gateway._id;
 
 		let responsesDevices;
 
 		if (devices) {
 			const allDevices = devices.map((value) => {
-				return new DeviceModel({ ...value, gatewayId: _id });
+				return {
+					...value,
+					gatewayId: _id
+				}
 			})
 			responsesDevices = await DeviceModel.insertMany(allDevices)
 			gateway.devices.push(...responsesDevices.map(value => value._id))
@@ -67,6 +71,25 @@ router.post('/', async (req, res) => {
 	catch (err) {
 		newGateway &&
 			newGateway.delete();
+
+		if (devices) {
+			await DeviceModel.deleteMany({ gatewayId: _id })
+		}
+
+		if (err.name === 'MongoError' && err.code === 11000) {
+			res.status(400).json({
+				success: false,
+				msg: 'Gateway serial number already exist'
+			})
+		}
+
+		if (err.name === 'BulkWriteError' && err.code === 11000) {
+			res.status(400).json({
+				success: false,
+				msg: 'Device UID already exist'
+			})
+		}
+
 		res.status(400).json({
 			success: false,
 			msg: err.message
@@ -137,12 +160,18 @@ router.post('/:id/devices', async (req, res) => {
 		gateway.devices.push(device._id);
 		gateway = await gateway.save();
 
-		res.status(200).json({
+		res.status(201).json({
 			success: true,
 			device
 		});
 	}
 	catch (err) {
+		if (err.name === 'MongoError' && err.code === 11000) {
+			res.status(400).json({
+				success: false,
+				msg: 'Device UID already exist'
+			})
+		}
 		res.status(400).json({
 			success: false,
 			msg: err.message

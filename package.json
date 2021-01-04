@@ -8,7 +8,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server",
     "client": "npm start --prefix client",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha server/test.js"
   },
   "author": "FrankSiret",
   "license": "ISC",
@@ -19,14 +19,15 @@
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "config": "^3.3.3",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mocha": "^8.2.1",
     "mongodb": "^3.6.3",
-    "mongoose": "^5.11.9",
-    "mongoose-timestamp": "^0.6.0",
-    "uuid": "^8.3.2"
+    "mongoose": "^5.11.9"
   },
   "repository": {
     "type": "git",
