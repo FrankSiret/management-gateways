@@ -4,8 +4,23 @@ const router = express.Router()
 const GatewayModel = require('../../models/gateways.model')
 const DeviceModel = require('../../models/devices.model')
 
-// @route   DELETE api/v1/gateways/:id/devices/:device
-// @desc    Delete A Peripheral Device From A Specified Gateway
+// @route   GET api/v1/devices
+// @desc    Get All Peripheral Device
+// @access  Public
+router.get('/', (req, res) => {
+	DeviceModel.find()
+		.select('-__v')
+		.exec()
+		.then(devices => res.json({
+			devices
+		}))
+		.catch(err => res.status(400).send({
+			msg: err.message
+		}))
+})
+
+// @route   DELETE api/v1/devices/:id
+// @desc    Delete A Peripheral Device 
 // @access  Public
 router.delete('/:id', async (req, res) => {
 	const _id = req.params.id;
@@ -31,7 +46,7 @@ router.delete('/:id', async (req, res) => {
 			await gateway.save()
 		}
 		await device.delete()
-		res.status({ success: true, msg: 'Peripheral device deleted successfully' })
+		res.json({ success: true, device, msg: 'Peripheral device deleted successfully' })
 	}
 	catch (err) {
 		res.status(400).json({

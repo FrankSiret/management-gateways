@@ -1,0 +1,53 @@
+.device {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #aaaaaa40;
+    margin: 6px 0;
+
+    border: 2px solid var(--white);
+}
+
+.device .device-header {
+    cursor: pointer;
+    background: var(--gray);
+    color: var(--white);
+    font-weight: 300;
+    padding: 5px 10px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.device .device-header > div:first-child {
+    margin-right: auto;
+}
+
+.device .item-span {
+    font-weight: 500;
+}
+
+.device-list {
+
+}
+
+.device-list .device-list-item {
+    margin: 10px 10px;
+}
+
+.device-list .device-list-item .item-span {
+
+}
+
+.create-device {
+    border-radius: 10px;
+    margin: 1em 0;
+}
+
+.device-eraser {
+    font-weight: 600;
+    color: #ccc;
+}
+
+.device-eraser:hover,.device-eraser:focus {
+    text-decoration: none;
+    color: #fff;
+}

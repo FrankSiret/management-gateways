@@ -1,0 +1,5 @@
+export const GET_GATEWAYS = 'GET_GATEWAYS'
+export const GET_GATEWAY = 'GET_GATEWAY'
+export const ADD_GATEWAY = 'ADD_GATEWAY'
+export const GATEWAYS_LOADING = 'GATEWAYS_LOADING'
+export const ERROR_GATEWAYS = 'ERROR_GATEWAYS'

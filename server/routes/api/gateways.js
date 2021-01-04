@@ -10,7 +10,7 @@ const DeviceModel = require('../../models/devices.model')
 router.get('/', (req, res) => {
 	GatewayModel.find()
 		.select('-__v')
-		.populate({ path: 'devices', select: '-__v -gatewayId' })
+		.populate({ path: 'devices', select: '-__v' })
 		.exec()
 		.then(gateways => res.json({
 			gateways
@@ -25,6 +25,8 @@ router.get('/', (req, res) => {
 // @access  Public
 router.post('/', async (req, res) => {
 
+	let newGateway;
+
 	try {
 		if (!req.is('application/json'))
 			throw new Error(`Expect 'application/json'`)
@@ -34,13 +36,13 @@ router.post('/', async (req, res) => {
 		if (!serial_number || !readable_name || !ipv4_address)
 			throw new Error('Enter all field')
 
-		if (devices && devices instanceof Array)
+		if (devices && !(devices instanceof Array))
 			throw new Error('Gateway peripheral device must be an Array')
 
 		if (devices && devices.length > 10)
 			throw new Error('No more that 10 peripheral devices are allowed for a gateway')
 
-		const newGateway = new GatewayModel({ serial_number, readable_name, ipv4_address });
+		newGateway = new GatewayModel({ serial_number, readable_name, ipv4_address });
 
 		let gateway = await newGateway.save();
 		const { _id } = gateway;
@@ -53,7 +55,8 @@ router.post('/', async (req, res) => {
 			})
 			responsesDevices = await DeviceModel.insertMany(allDevices)
 			gateway.devices.push(...responsesDevices.map(value => value._id))
-			gateway = await newGateway.save()
+			await newGateway.save().then(value => value.populate('devices'))
+			await gateway.execPopulate()
 		}
 
 		res.status(201).json({
@@ -62,7 +65,8 @@ router.post('/', async (req, res) => {
 		});
 	}
 	catch (err) {
-		newGateway.delete();
+		newGateway &&
+			newGateway.delete();
 		res.status(400).json({
 			success: false,
 			msg: err.message
@@ -77,7 +81,7 @@ router.get('/:id', (req, res) => {
 	const _id = req.params.id;
 	GatewayModel.findById(_id)
 		.select('-__v')
-		.populate({ path: 'devices', select: '-__v -gatewayId' })
+		.populate({ path: 'devices', select: '-__v' })
 		.exec()
 		.then(gateway => res.json({
 			gateway
@@ -99,59 +103,6 @@ router.post('/:id/devices', async (req, res) => {
 		})
 
 	const _id = req.params.id;
-
-	let gateway;
-
-	try {
-		gateway = await GatewayModel.findById(_id);
-		if (!gateway) throw new Error()
-	}
-	catch (err) {
-		res.status(404).json({
-			success: false,
-			msg: `Gateway object '${_id}' not found`
-		})
-	}
-
-	try {
-		const { _id, devices } = gateway;
-
-		if (devices.length >= 10)
-			throw new Error('No more that 10 peripheral devices are allowed for a gateway')
-
-		const { uid, vendor, date_created, status } = req.body
-
-		if (!uid || !vendor || !status)
-			throw new Error('Enter all field')
-
-		const data = { uid, vendor, status }
-		if (date_created) data.date_created = date_created
-		const newDevice = new DeviceModel(data);
-		newDevice.gatewayId = _id;
-		const device = await newDevice.save();
-
-		gateway.devices.push(device._id);
-		gateway = await gateway.save();
-
-		res.status(200).json({
-			success: true,
-			device
-		});
-	}
-	catch (err) {
-		res.status(400).json({
-			success: false,
-			msg: err.message
-		});
-	}
-})
-
-// @route   DELETE api/v1/gateways/:id/devices/:device
-// @desc    Delete A Peripheral Device From A Specified Gateway
-// @access  Public
-router.delete('/:id/devices/:device', async (req, res) => {
-	const _id = req.params.id;
-	const _device = req.params.device;
 
 	let gateway;
 
