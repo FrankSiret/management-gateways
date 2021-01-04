@@ -18,7 +18,15 @@ Each peripheral device has:
 
 ## Quick Start
 
-Add your MONGODB_URI to the config.js file.
+1. Clone the project from GitHub
+
+```
+git clone https://github.com/FrankSiret/management-gateways.git
+```
+
+2. Add your `MONGODB_URI` to the `config.js` file.
+
+3. Move to `root` folder and install all dependencies for both server and client with your package manager
 
 ```bash
 # Install dependencies for server
@@ -26,25 +34,35 @@ npm install
 
 # Install dependencies for client
 npm run client-install
+```
 
+4. Run the server and client, both with only one command
+
+```
 # Run the client & server with concurrently
 npm run dev
+```
 
+or using two commands separactely
+
+```
 # Run the Express server only
 npm run server
 
 # Run the React client only
 npm run client
-
-# Server runs on http://localhost:5000 and client on http://localhost:3000
 ```
+
+The server should be runs on http://localhost:5000 and client on http://localhost:3000
 
 ## Unit Test
 
-The server should be listening at [http://localhost:5000](http://localhost:5000) for run unit test use the command:
+The server should be listening at [http://localhost:5000](http://localhost:5000).
+
+For testing make sure that your `MONGODB_URI` in `test.js` file is correctly set. You can run unit test using the command:
 
 ```bash
-npm run test
+npm test
 ```
 
 ## App Info
