@@ -1,6 +1,5 @@
 import {
     GET_GATEWAYS,
-    GET_GATEWAY,
     ADD_GATEWAY,
     GATEWAYS_LOADING,
     ERROR_GATEWAYS
@@ -23,13 +22,6 @@ const gatewaysReducer = (state = initialState, { type, payload }) => {
                 loading: false,
                 error: null
             };
-        // case GET_GATEWAY:
-        //     return {
-        //         ...state,
-        //         gateways: [...payload],
-        //         loading: false,
-        //         error: null
-        //     };
         case ADD_GATEWAY:
             return {
                 ...state,
