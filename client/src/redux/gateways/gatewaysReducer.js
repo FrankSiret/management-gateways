@@ -5,7 +5,7 @@ import {
     ERROR_GATEWAYS
 } from './gatewaysTypes';
 
-import { DELETE_DEVICE } from '../devices/devicesTypes';
+import { DELETE_DEVICE, ADD_DEVICE } from '../devices/devicesTypes';
 
 const initialState = {
     gateways: [],
@@ -40,17 +40,33 @@ const gatewaysReducer = (state = initialState, { type, payload }) => {
                 error: payload,
                 loading: false
             }
-        case DELETE_DEVICE:
-            const _gateway = state.gateways.map(g => {
-                const { devices } = g
+        case ADD_DEVICE:
+            const _gateway = state.gateways.map(gateway => {
+                let { devices } = gateway
+                if (gateway._id == payload.gatewayId) {
+                    devices = [...devices, payload]
+                }
                 return {
-                    ...g,
-                    devices: devices.filter(d => d._id !== payload._id)
+                    ...gateway,
+                    devices
                 };
             })
             return {
                 ...state,
                 gateways: _gateway,
+                error: null
+            }
+        case DELETE_DEVICE:
+            const _gateway2 = state.gateways.map(gateway => {
+                const { devices } = gateway
+                return {
+                    ...gateway,
+                    devices: devices.filter(device => device._id !== payload._id)
+                };
+            })
+            return {
+                ...state,
+                gateways: _gateway2,
                 error: null
             }
         default:

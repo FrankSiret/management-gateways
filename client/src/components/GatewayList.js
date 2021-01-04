@@ -95,18 +95,21 @@ const GatewayList = () => {
 						{error_gw && <Alert color="danger" isOpen={alerts.errorGateway} toggle={() => setAlerts('errorGateway')}>{`${error_gw.status}: ${error_gw.msg.msg}`}</Alert>}
 						<div>
 							{
-								gateways.map(gw => {
-									return <Gateway
-										key={gw._id}
-										_id={gw._id}
-										serial_number={gw.serial_number}
-										readable_name={gw.readable_name}
-										ipv4_address={gw.ipv4_address}
-										devices={gw.devices}
-										isActive={isActive}
-										setIsActive={setIsActive}
-									/>
-								})
+								gateways.length > 0
+									? gateways.map(gw => {
+										return <Gateway
+											key={gw._id}
+											_id={gw._id}
+											serial_number={gw.serial_number}
+											readable_name={gw.readable_name}
+											ipv4_address={gw.ipv4_address}
+											devices={gw.devices}
+											isActive={isActive}
+											setIsActive={setIsActive}
+										/>
+									})
+									: !loading_gw &&
+									<div className="none-gateways">There are not gateways</div>
 							}
 						</div>
 						{!loading_gw && <Button className="create-gateway" color="primary" block onClick={() => createGateway()}>Add new Gateway</Button>}
@@ -116,7 +119,7 @@ const GatewayList = () => {
 						{error_dv && <Alert color="danger" isOpen={alerts.errorDevice} toggle={() => setAlerts('errorDevice')}>{`${error_dv.status}: ${error_dv.msg.msg}`}</Alert>}
 						<div>
 							{
-								!loading_gw && devices.length
+								!loading_gw && devices.length > 0
 									? devices.map(dv => {
 										return <Device
 											key={dv._id}
@@ -127,11 +130,11 @@ const GatewayList = () => {
 											date_created={dv.date_created}
 										/>
 									})
-									: !loading_gw && !loading_dv &&
+									: !loading_gw && !loading_dv && gateways.length > 0 &&
 									<div className="none-devices">There are not peripheral devices</div>
 							}
 						</div>
-						{!loading_dv && <Button className="create-gateway" color="primary" block onClick={() => createDevice()}>Add new Peripheral Device</Button>}
+						{!loading_dv && gateways.length > 0 && <Button className="create-gateway" color="primary" block onClick={() => createDevice()}>Add new Peripheral Device</Button>}
 					</Col>
 				</Row>
 			</Container>
