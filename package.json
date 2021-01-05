@@ -7,7 +7,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server",
     "client": "npm start --prefix client",
-    "test": "mocha server/test.js"
+    "test": "mocha server/test.js --exit"
   },
   "author": "FrankSiret",
   "license": "ISC",
