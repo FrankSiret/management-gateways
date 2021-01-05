@@ -36,7 +36,7 @@ Each peripheral device has:
     yarn install
     ```
 
-then move to `client` folder and install all dependencies for the client with your favorite package manager
+    then move to `client` folder and install all dependencies for the client with your favorite package manager
 
     ```bash
     npm install
