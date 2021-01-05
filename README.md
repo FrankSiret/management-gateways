@@ -46,14 +46,14 @@ Each peripheral device has:
     yarn install
     ```
 
-5.  Run the server and client, both with only one command. But make sure you are again in the root folder
+5.  Run the server and client, both with only one command. But make sure you are in the `root` folder
 
     ```bash
     # Run the client & server with concurrently
     npm run dev
     ```
 
-    or using two commands separactely
+    or using two commands separately
 
     ```bash
     # Run the Express server only
