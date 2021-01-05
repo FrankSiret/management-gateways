@@ -1,6 +1,14 @@
 # Api Documentation
 
-[TOC]
+- [Api Documentation](#api-documentation)
+  * [Gateways](#gateways)
+      - [GET `api/v1/gateways`](#get--api-v1-gateways-)
+      - [POST `api/v1/gateways`](#post--api-v1-gateways-)
+      - [GET `api/v1/gateways/:id`](#get--api-v1-gateways--id-)
+      - [POST `api/v1/gateways/:id/devices`](#post--api-v1-gateways--id-devices-)
+  * [Devices](#devices)
+      - [GET `api/v1/devices`](#get--api-v1-devices-)
+      - [DELETE `api/v1/devices/:id`](#delete--api-v1-devices--id-)
 
 ## Gateways
 
