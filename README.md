@@ -26,17 +26,27 @@ Each peripheral device has:
 
 2.  Add your `MONGODB_URI` to the `config.js` file.
 
-3.  Move to the `root` folder and install all dependencies for both, server and client, with your favorite package manager
+3.  Move to the `root` folder and install all dependencies for the server with your favorite package manager
 
     ```bash
-    # Install dependencies for server
     npm install
-
-    # Install dependencies for client
-    npm run client-install
+    ```
+    or
+    ```bash
+    yarn install
     ```
 
-4.  Run the server and client, both with only one command
+then move to `client` folder and install all dependencies for the client with your favorite package manager
+
+    ```bash
+    npm install
+    ```
+    or
+    ```bash
+    yarn install
+    ```
+
+5.  Run the server and client, both with only one command. But make sure you are again in the root folder
 
     ```bash
     # Run the client & server with concurrently

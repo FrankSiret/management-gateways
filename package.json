@@ -4,7 +4,6 @@
   "description": "gateways managing",
   "main": "index.js",
   "scripts": {
-    "client-install": "npm install --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server",
     "client": "npm start --prefix client",
